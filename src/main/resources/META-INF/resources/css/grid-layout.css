@@ -1,0 +1,84 @@
+/* Setting up our grid */
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .seven:first-child,.eight:first-child,.nine:first-child,.ten:first-child,.eleven:first-child {
+    margin-left: 0;
+  }
+  
+  .eleven {
+    width: 88.916%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .ten {
+    width: 80.83%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .nine {
+    width: 72.75%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .eight {
+    width: 64.66%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .seven {
+    width: 57.5%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .six {
+    width: 48.59%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .five {
+    width: 40.41%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .four {
+    width: 32.43%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .three {
+    width: 24.29%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .two {
+    width: 16.16%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .one {
+    width: 8.023%;
+    float: left;
+    margin-left: 0;
+  }
+  
+  .row {
+    width: 99%;
+    clear: both;
+    padding-left: 1%;
+    margin: 0px;
+  }
+  

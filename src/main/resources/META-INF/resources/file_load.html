@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Wizard</title>
+  <link rel="stylesheet" href="css/grid-layout.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <div class="row" style="height:10vh;">
+    </div><!-- End row-->
+  </header>
+  <main>
+    <div class="row">
+      <div class="three">&nbsp;</div>
+      <div id="metadata" class="mainpage" style="height:100%; width:40%; margin: auto; padding: 2%;">
+        <h1>New Q&A Document:</h1>
+        <br /><br />
+        <div class="five">
+          <div style="border: 2px solid darkgray; height:100%; margin: auto; padding: 2%; border-radius: 10px;">
+            <br /><br />
+            <h2>Load existing file:</h2><br />
+            <hr style="width:97%;" /><br />
+            <form method="post" action="/fileupload" enctype="multipart/form-data">
+              <div class="four"><label for="myfile">Select a file:</label><br /><br /></div>
+              <div class="four"><input type="file" id="myfile" name="myfile"></div>
+              <br /><br /><br /><input type="submit" value="Upload">
+            </form>
+            <br />
+          </div>
+        </div>
+        <div class="two">&nbsp;</div>
+        <div class="five">
+          <div style="border: 2px solid darkgray; height:100%; margin: auto; padding: 2%; border-radius: 10px;">
+            <br /><br />
+            <h2>Create new file:</h2><br />
+            <hr style="width:97%;" /><br />
+            <form>
+              <div class="four"><label for="version">Q&A Type:</label><br /><br /></div>
+              <div class="five">
+                <input type="radio" id="knowledge" name="version" value="3" checked disabled>
+                <label for="html">Knowledge</label><br />
+                <input type="radio" id="skill" name="version" value="2" disabled>
+                <label for="css">Skill</label><br /><br />
+              </div>
+              <br /><br /><br /><input type="submit" value="Create" disabled>
+            </form>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+  </footer>
+</body>
+
+</html>
