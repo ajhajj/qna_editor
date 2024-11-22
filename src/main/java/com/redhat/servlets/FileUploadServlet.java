@@ -1,11 +1,16 @@
 package com.redhat.servlets;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.yaml.snakeyaml.error.YAMLException;
 
 import com.redhat.rad.yaml.YamlUtil;
-import com.redhat.rad.yaml.model.QnA;
+import com.redhat.rad.yaml.model.KnowledgeQnA;
+import com.redhat.rad.yaml.model.SkillQnA;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -21,7 +26,8 @@ import jakarta.servlet.http.Part;
 public class FileUploadServlet extends GenericServlet 
   {
     static String _TARGET_404 = null;
-    static String _TARGET = null;
+    static String _TARGET_KQNA = null;
+    static String _TARGET_SQNA = null;
     static String _QNA_STUBFILE = null;
     static boolean _QNA_STUB_ENABLED = false;
     static String _CALLING_PAGE = null;
@@ -29,7 +35,8 @@ public class FileUploadServlet extends GenericServlet
     @Override public void init() throws ServletException 
       {
         _TARGET_404 = getConfig("http.status_code.404");
-        _TARGET = getConfig("servlet.FileUploadServlet.target");
+        _TARGET_KQNA = getConfig("fwd.target.jsp.qna");
+        _TARGET_SQNA = getConfig("fwd.target.jsp.skill.qna");
         _CALLING_PAGE = getConfig("servlet.FileUploadServlet.callingPage");
         _QNA_STUBFILE = getConfig("servlet.FileUploadServlet.qna.stubfile");
         _QNA_STUB_ENABLED = "true".equalsIgnoreCase(getConfig("servlet.FileUploadServlet.enable.qna.stubfile"));
@@ -39,7 +46,7 @@ public class FileUploadServlet extends GenericServlet
 
     @Override protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
       {
-        QnA qnaDoc = null;
+        KnowledgeQnA qnaDoc = null;
         HttpSession session = null;
         RequestDispatcher dispatcher = null;
 
@@ -52,7 +59,7 @@ public class FileUploadServlet extends GenericServlet
 
         try 
           {
-            qnaDoc = YamlUtil.parseYaml(_QNA_STUBFILE);
+            qnaDoc = YamlUtil.parseKnowledgeYamlFromFile(_QNA_STUBFILE);
           } 
         catch (FileNotFoundException ex) 
           {
@@ -67,32 +74,102 @@ public class FileUploadServlet extends GenericServlet
 
         session = request.getSession();
         session.setAttribute("qnaDoc", qnaDoc);
-        dispatcher = getServletContext().getRequestDispatcher(_TARGET);
+        dispatcher = getServletContext().getRequestDispatcher(_TARGET_KQNA);
         dispatcher.forward(request, response);
       }
 
     @Override protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
       {
         RequestDispatcher dispatcher = null;
-        QnA qnaDoc = null;
+        KnowledgeQnA qnaDoc = null;
+        SkillQnA qnaSDoc = null;
         HttpSession session = null;
         Part filePart = null;
         InputStream fileStream = null;
+        String target = _CALLING_PAGE;
+        String file = null;
+        String version = "3";
 
         filePart = request.getPart("myfile");
 
         if(!"".equals(filePart.getSubmittedFileName()))
           {
-            fileStream = filePart.getInputStream();
-            qnaDoc = YamlUtil.parseYaml(fileStream);
-
             session = request.getSession();
-            session.setAttribute("qnaDoc", qnaDoc);
-            dispatcher = getServletContext().getRequestDispatcher(_TARGET);
+            fileStream = filePart.getInputStream();
+            file = loadFile(fileStream);
+            version = getVersion(file);
+
+            if("3".equals(version))
+              {
+                try
+                  {
+                    qnaDoc = YamlUtil.parseKnowledgeYamlFromString(file);
+                    YamlUtil.padQnA(qnaDoc);
+                    session.setAttribute("qnaDoc", qnaDoc);
+                    target = _TARGET_KQNA;
+                  }
+                catch(YAMLException ex)
+                  {
+                    // must be a Skill qna
+                    version = "2";
+                  }
+              }
+            
+            if("2".equals(version))
+              { 
+                try
+                  {
+                    qnaSDoc = YamlUtil.parseSkillYamlFromString(file);
+                    YamlUtil.padQnA(qnaSDoc);
+                    session.setAttribute("qnaSDoc", qnaSDoc);
+                    target = _TARGET_SQNA;
+                  }
+                catch(YAMLException ex)
+                  {
+                    System.err.println(ex);
+                  }
+              }
+            dispatcher = getServletContext().getRequestDispatcher(target);
             dispatcher.forward(request, response);
           }
 
-        dispatcher = getServletContext().getRequestDispatcher(_CALLING_PAGE);
+        dispatcher = getServletContext().getRequestDispatcher(target);
         dispatcher.forward(request, response);
       }
+
+    private String loadFile(InputStream inputStream) throws IOException 
+      {
+        StringBuilder resultStringBuilder = null;
+        String line = null;
+
+        resultStringBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) 
+          {
+            while((line = br.readLine()) != null) 
+              resultStringBuilder.append(line).append("\n");
+          }
+          
+        return(resultStringBuilder.toString());
+      }
+    
+    private static String getVersion(String file)
+      {
+        String match = "version:";
+        String value = null;
+        int startIndex, endIndex;
+
+        startIndex = (file.trim()).indexOf(match);
+        if(startIndex != -1)
+          {
+            endIndex = (file.trim()).indexOf("\n", startIndex);
+            if(endIndex != -1)
+              value = file.substring(startIndex + match.length(), endIndex).trim();
+            else
+              value = file.substring(startIndex + match.length()).trim(); // end of file
+          }
+
+        return(value);
+      }
+
+
 }

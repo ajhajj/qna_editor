@@ -69,7 +69,7 @@ public class JSPServlet extends GenericServlet
             if(ConfigUtils.isProfileActive(profileName))
               {
                 isQuarkusDevMode = (profileName.equals(_QUARKUS_PROFILE_DEV));
-                System.out.println("Quarkus Dev Mode!");
+                System.out.println("Quarkus dev mode: " + isQuarkusDevMode);
                 break;
               }
           }

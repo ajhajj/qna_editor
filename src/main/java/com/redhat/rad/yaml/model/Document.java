@@ -3,8 +3,8 @@ package com.redhat.rad.yaml.model;
 import java.util.List;
 
 public class Document {
-  private String repo;
-  private String commit;
+  private String repo = "";
+  private String commit = "";
   private List<String> patterns;
 
   public String getRepo() {

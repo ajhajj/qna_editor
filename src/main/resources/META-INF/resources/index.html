@@ -39,15 +39,15 @@
             <br /><br />
             <h2>Create new file:</h2><br />
             <hr style="width:97%;" /><br />
-            <form>
+            <form method="post" action="/newfile" enctype="multipart/form-data">
               <div class="four"><label for="version">Q&A Type:</label><br /><br /></div>
               <div class="five">
-                <input type="radio" id="knowledge" name="version" value="3" checked disabled>
+                <input type="radio" id="knowledge" name="version" value="3" checked>
                 <label for="html">Knowledge</label><br />
-                <input type="radio" id="skill" name="version" value="2" disabled>
+                <input type="radio" id="skill" name="version" value="2">
                 <label for="css">Skill</label><br /><br />
               </div>
-              <br /><br /><br /><input type="submit" value="Create" disabled>
+              <br /><br /><br /><input type="submit" value="Create">
             </form>
             <br />
           </div>

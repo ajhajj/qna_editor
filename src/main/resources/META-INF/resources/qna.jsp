@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%@page import="com.redhat.rad.yaml.model.QnA,
-                  com.redhat.rad.yaml.model.SeedExample,
-                  com.redhat.rad.yaml.model.SeedQandA,
+  <%@page import="com.redhat.rad.yaml.model.KnowledgeQnA,
+                  com.redhat.rad.yaml.model.KnowledgeSeedExample,
+                  com.redhat.rad.yaml.model.KnowledgeSeedQandA,
                   java.util.List,
                   java.util.Iterator" session="true"%>
   <%
-    QnA qnaDoc = (QnA)session.getAttribute("qnaDoc");
+    KnowledgeQnA qnaDoc = (KnowledgeQnA)session.getAttribute("qnaDoc");
     List<String> patterns = qnaDoc.getDocument().getPatterns();
     
     String patternList = "";
-    Iterator it = patterns.iterator();
-    while(it.hasNext())
-      patternList += "," + (String)it.next();
-      
+    Iterator<String> iter = patterns.iterator();
+    while(iter.hasNext())
+      patternList += "," + iter.next();
+        
     patternList = patternList.substring(1);
 
-    List<SeedExample> seed_examples = qnaDoc.getSeed_examples();
-    SeedExample example = null;
-    SeedQandA qna = null;
+    List<KnowledgeSeedExample> seed_examples = qnaDoc.getSeed_examples();
+    KnowledgeSeedExample example = null;
+    KnowledgeSeedQandA qna = null;
+    Iterator<KnowledgeSeedExample> it = null;
     it = seed_examples.iterator();
       
   %>
@@ -39,11 +40,18 @@
     <main>
       <div class="row">
         <div class="three">&nbsp;</div>
-        <div id="metadata" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%;">
-          <font style="font-size: 16px;">Metadata | <a href="#" onclick="document.getElementById('metadata').style.display = 'none'; document.getElementById('seed_examples').style.display = 'block';">Seed Examples</a></font><br /><br />
-          <h1><%=("3".equals(qnaDoc.getVersion()))?"Knowledge":"Skill" %> Q&A: Metadata</h1>
-          <br /><br />
-          <form >
+        <form method="post" action="/filesave" >
+          <div id="metadata" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%;">
+           <div class="six"> 
+          <font style="font-size: 16px;">Metadata | <a href="#" onclick="document.getElementById('metadata').style.display = 'none'; document.getElementById('seed_examples').style.display = 'block';">Seed Examples</a></font>
+           </div>
+           <div class="six" align="right">
+          <input type="submit" name="save" value="Save"> <input type="submit" name="export" value="Export">
+        </div>
+        <br /><br />
+        <h1>Knowledge Q&A</h1>
+        <br /><br />
+        <h2>Metadata:</h2><br />
             <div style="border: 2px solid darkgray;; margin: auto; padding: 2%; border-radius: 10px;">
             <div class="four"> 
               <label for="domain">Domain: </label> <input type="text" id="domain" name="domain" style="width: 50%;" title="Specify the category of the knowledge." value="<%=qnaDoc.getDomain() %>"><br />
@@ -60,44 +68,54 @@
               <label for="patterns">Patterns: </label> <input type="text" id="patterns" name="patterns"  style="width: 40%;" title='A list of glob patterns specifying the markdown files in your repository. Any glob pattern that starts with *, such as *.md, must be quoted due to YAML rules. For example, "*.md".' value="<%=patternList %>"><br /><br />
             </div>
            </div>
-          </form>
         </div>
 
 
         <div id="seed_examples" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%; display: none">
-          <font style="font-size: 16px;"><a href="#" onclick="document.getElementById('seed_examples').style.display = 'none'; document.getElementById('metadata').style.display = 'block'">Metadata</a> | Seed Examples</font><br /><br />
-          <h1><%=("3".equals(qnaDoc.getVersion()))?"Knowledge":"Skill" %> Q&A: Seed Examples</h1>
+          <div class="six"> 
+            <font style="font-size: 16px;"><a href="#" onclick="document.getElementById('seed_examples').style.display = 'none'; document.getElementById('metadata').style.display = 'block'">Metadata</a> | Seed Examples</font>
+             </div>
+             <div class="six" align="right">
+            <input type="submit" name="save" value="Save"> <input type="submit" name="export" value="Export">
+          </div><br /><br />
+            <h1><%=("3".equals(qnaDoc.getVersion()))?"Knowledge":"Skill" %> Q&A: Seed Examples</h1>
           <br /><br />
-          <form >
             <% 
+              int exampleCount = 0;
+              int qnaCount = 0;
               while(it.hasNext()) 
                 {
-                  example = (SeedExample)it.next();
-                  List<SeedQandA> qnaList = example.getQuestions_and_answers();
-                  Iterator qnaIt = qnaList.iterator();
+                  example = it.next();
+                  List<KnowledgeSeedQandA> qnaList = example.getQuestions_and_answers();
+                  Iterator<KnowledgeSeedQandA> qnaIt = qnaList.iterator();
             %>
-            <div style="border: 2px solid darkgray;; margin: auto; padding: 2%; border-radius: 10px;">
+            <div style="border: 2px solid darkgray; margin: auto; padding: 2%; border-radius: 10px;">
             <div class="eleven>"
-              <br /><label for="context" style="font-weight: bold;">Context:<br /></label> <textarea id="context" name="context" rows="7" style="width: 90%;" title="A chunk of information from the knowledge document. Each qna.yaml needs five context blocks and has a maximum word count of 500 words."><%=example.getContext() %></textarea>
+              <br /><label for="context" style="font-weight: bold;">Context:<br /></label> <textarea id="context_<%=exampleCount%>" name="context_<%=exampleCount%>" rows="7" style="width: 90%;" title="A chunk of information from the knowledge document. Each qna.yaml needs five context blocks and has a maximum word count of 500 words."><%=example.getContext() %></textarea>
             </div>
             <div style="width:100%;">
               <br /><br /><h2>Questions and Answers:</h2><br /><hr  style="width:97%;"/><br />
               <%
+                qnaCount = 0;
                 while(qnaIt.hasNext())
                   {
-                    qna = (SeedQandA)qnaIt.next();
+                    qna = qnaIt.next();
               %>
-              <label for="question">Question: </label><br /><input type="text" id="question" name="question" style="width: 90%;" title="Specify a question for the model. Each qna.yaml file needs at least three question and answer pairs per context chunk with a maximum word count of 250 words." value="<%=qna.getQuestion() %>"><br />
-              <label for="answer">Answer: </label><br /><textarea id="context" name="context" rows="2" style="width: 90%;" title="Specify the desired answer from the model. Each qna.yaml file needs at least three question and answer pairs per context chunk with a maximum word count of 250 words."><%=qna.getAnswer() %></textarea><br />
-              <%  } %>
+              <label for="question_<%=exampleCount%>_<%=qnaCount%>">Question: </label><br /><input type="text" id="question_<%=exampleCount%>_<%=qnaCount%>" name="question_<%=exampleCount%>_<%=qnaCount%>" style="width: 90%;" title="Specify a question for the model. Each qna.yaml file needs at least three question and answer pairs per context chunk with a maximum word count of 250 words." value="<%=qna.getQuestion() %>"><br />
+              <label for="answer_<%=exampleCount%>_<%=qnaCount%>">Answer: </label><br /><textarea id="answer_<%=exampleCount%>_<%=qnaCount%>" name="answer_<%=exampleCount%>_<%=qnaCount%>" rows="2" style="width: 90%;" title="Specify the desired answer from the model. Each qna.yaml file needs at least three question and answer pairs per context chunk with a maximum word count of 250 words."><%=qna.getAnswer() %></textarea><br />
+              <%
+                    qnaCount++;  
+                  } 
+              %>
             </div>
           </div>
             <%
-                }
+                exampleCount++;
+              }
             %>
-          </form>
         </div>
-      </div><!-- End row-->
+      </form>
+    </div><!-- End row-->
     </main>
     <footer>
     </footer>

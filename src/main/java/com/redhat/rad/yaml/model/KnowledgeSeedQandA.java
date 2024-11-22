@@ -1,8 +1,8 @@
 package com.redhat.rad.yaml.model;
 
-public class SeedQandA {
-    private String question;
-    private String answer;
+public class KnowledgeSeedQandA {
+    private String question = "";
+    private String answer = "";
 
     public String getQuestion() {
         return question;

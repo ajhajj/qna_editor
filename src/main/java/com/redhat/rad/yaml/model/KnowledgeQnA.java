@@ -2,19 +2,19 @@ package com.redhat.rad.yaml.model;
 
 import java.util.List;
 
-public class QnA {
-    private String version;
-    private String domain;
-    private String created_by;
-    private List<SeedExample> seed_examples;
-    private String document_outline;
+public class KnowledgeQnA {
+    private int version;
+    private String domain = "";
+    private String created_by = "";
+    private List<KnowledgeSeedExample> seed_examples;
+    private String document_outline = "";
     private Document document;
 
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 
@@ -50,11 +50,11 @@ public class QnA {
         this.document = document;
     }
 
-    public List<SeedExample> getSeed_examples() {
+    public List<KnowledgeSeedExample> getSeed_examples() {
         return seed_examples;
     }
 
-    public void setSeed_examples(List<SeedExample> seed_examples) {
+    public void setSeed_examples(List<KnowledgeSeedExample> seed_examples) {
         this.seed_examples = seed_examples;
     }
 
