@@ -2,15 +2,10 @@ package com.redhat.servlets;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.List;
 
 import com.redhat.rad.yaml.YamlUtil;
 import com.redhat.rad.yaml.model.KnowledgeQnA;
-import com.redhat.rad.yaml.model.KnowledgeSeedExample;
-import com.redhat.rad.yaml.model.KnowledgeSeedQandA;
 import com.redhat.rad.yaml.model.SkillQnA;
-import com.redhat.rad.yaml.model.SkillSeedExample;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
