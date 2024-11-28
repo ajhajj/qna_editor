@@ -66,14 +66,14 @@ public class FileDownloadServlet extends GenericServlet
           {
             YamlUtil.pruneEmptyQnA(qnaSDoc);
             yaml = YamlUtil.encodeYaml(qnaSDoc);
-            yaml = pruneEmptyContext(yaml);
+            yaml = YamlUtil.pruneEmptyContext(yaml);
             qnaNull = false;
           }
 
         if(!qnaNull)
           {
             response.setContentType("text/plain");
-            response.setHeader("Content-disposition", "attachment; filename=qna.yaml");
+            response.setHeader("Content-disposition", "attachment; filename=qna.yaml;");
     
             yaml_bytes = yaml.getBytes();
 
@@ -87,22 +87,5 @@ public class FileDownloadServlet extends GenericServlet
 
         dispatcher = getServletContext().getRequestDispatcher(_TARGET_404);
         dispatcher.forward(request, response);
-      }
-    
-    public static String pruneEmptyContext(String yamlString)
-      {
-        String token = "    context: ''";
-        int startIndex, endIndex;
-
-        while((startIndex = yamlString.indexOf(token)) != -1)
-          {
-            endIndex = yamlString.indexOf("\n", startIndex);
-            if(endIndex == -1)
-              yamlString = yamlString.substring(startIndex);
-            else
-              yamlString = yamlString.substring(0, startIndex) + yamlString.substring( endIndex + 1);
-          }
-
-        return(yamlString);
       }
 }

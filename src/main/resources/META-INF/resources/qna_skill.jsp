@@ -10,6 +10,9 @@
     SkillSeedExample example = null;
     Iterator<SkillSeedExample> it = null;
     it = seed_examples.iterator();
+    String divVisibility = "";
+    String yaml = (String)request.getAttribute("yaml");
+    boolean preview = (yaml != null);  
       
   %>
   <head>
@@ -29,14 +32,49 @@
       <div class="row"><!-- start div "row" -->
         <div class="three">&nbsp;</div> 
         <form method="post" action="/filesave" >
-          <div id="metadata" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%;"> <!-- start div "mainpage" -->
-            <div class="six">&nbsp;</div>
-            <div class="six" align="right"> <!-- start div "six" -->
-              <input type="submit" name="save" value="Save"> <input type="submit" name="export" value="Export">
-            </div> <!-- end div "six" -->
+          <%
+            if(preview)
+              {
+          %>
+          <div id="yaml" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%;">
+            <div class="six"> 
+              &nbsp;
+            </div>
+            <div class="six" align="right">
+              <a onclick="document.getElementById('yaml').style.display = 'none'; document.getElementById('metadata').style.display = 'block'; document.getElementById('seed_examples').style.display = 'none';" class="x">❌</a>
+            </div>
+            <br /><br />
+            <h1>Knowledge Q&A</h1>
+            <br /><br />
+            <h2>YAML Preview:</h2><br />
+            <div style="border: 2px solid darkgray; margin: auto; padding: 2%; border-radius: 10px; background-color: rgb(200, 197, 197);">
+              <div> 
+                <font style="font-size: 17px; line-height: 1.27;">
+                <%=yaml %>
+                </font>
+              </div>
+            </div>
+          </div>
+          <%
+                divVisibility="display: none;";
+              }
+          %>
+
+
+          <div id="metadata" class="mainpage" style="height:45%; width:50%; margin: auto; padding: 2%; <%=divVisibility %>"> <!-- start div "mainpage" -->
+            <div class="row">
+              <div class="six">&nbsp;</div>
+              <div class="six" align="right" vertical-align="top">
+                <img src="images/ai.png" height="70px" style="vertical-align:top;">
+              </div>
+            </div>
             <br /><br />
             <h1>Skill Q&A</h1>
-            <br /><br />
+            <div align="right" vertical-align="top" style="margin: auto; padding: 2%; border-radius: 10px;">
+              <input type="submit" name="save" value="Save" style="background-image: url(images/save.png);" class="my-submit-icon"> | 
+              <input type="submit" name="export" value="Export" style="background-image: url(images/download.png);" class="my-submit-icon"> | 
+              <input type="submit" name="preview" value="YAML Preview" style="background-image: url(images/preview.png);" class="my-submit-icon">
+            </div>
             <h2>Metadata:</h2><br />
             <div style="border: 2px solid darkgray;; margin: auto; padding: 2%; border-radius: 10px;"> <!-- start div "border" -->
               <div class="four"> <!-- start div "four" -->

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.redhat.rad.yaml.YamlUtil;
 import com.redhat.rad.yaml.model.Document;
 import com.redhat.rad.yaml.model.KnowledgeQnA;
 import com.redhat.rad.yaml.model.KnowledgeSeedExample;
@@ -61,11 +62,14 @@ public class FileSaveServlet extends GenericServlet
         KnowledgeQnA qnaDoc = null;
         SkillQnA sQnaDoc = null;
         HttpSession session = null;
-        String button = null;
+        String btnExport = null;
+        String btnPreview = null;
+        String yaml = null;
         String fwdTarget = _TARGET_404;
       
         session = request.getSession();
-        
+        btnPreview = request.getParameter("preview");
+        btnExport = request.getParameter("export");
 
         if((qnaDoc = (KnowledgeQnA)session.getAttribute("qnaDoc")) != null)
           {
@@ -75,11 +79,19 @@ public class FileSaveServlet extends GenericServlet
             qnaDoc = buildKnowledgeQnA(request, response);
             session.setAttribute("qnaDoc", qnaDoc);
 
-             button = request.getParameter("export");
-             if(button == null)
-               fwdTarget = _TARGET_KQNA;
-             else
-               fwdTarget = "/filedownload";
+            if((btnPreview != null) && (qnaDoc != null))
+              {
+                qnaDoc = YamlUtil.cloneQnA(qnaDoc);
+                YamlUtil.pruneEmptyQnA(qnaDoc);
+                yaml = YamlUtil.encodeYaml(qnaDoc);
+                yaml = YamlUtil.encodeYamlAsHTML(yaml);
+                request.setAttribute("yaml", yaml);
+              }
+
+            if(btnExport == null)
+              fwdTarget = _TARGET_KQNA;
+            else
+              fwdTarget = "/filedownload";
             
           }
         else if((sQnaDoc = (SkillQnA)session.getAttribute("qnaSDoc")) != null)
@@ -90,8 +102,17 @@ public class FileSaveServlet extends GenericServlet
             sQnaDoc = buildSkillQnA(request, response);
             session.setAttribute("qnaSDoc", sQnaDoc);
 
-             button = request.getParameter("export");
-             if(button == null)
+            if((btnPreview != null) && (sQnaDoc != null))
+              {
+                sQnaDoc = YamlUtil.cloneQnA(sQnaDoc);
+                YamlUtil.pruneEmptyQnA(sQnaDoc);
+                yaml = YamlUtil.encodeYaml(sQnaDoc);
+                yaml = YamlUtil.pruneEmptyContext(yaml);
+                yaml = YamlUtil.encodeYamlAsHTML(yaml);
+                request.setAttribute("yaml", yaml);
+              }
+
+             if(btnExport == null)
                fwdTarget = _TARGET_SQNA;
              else
                fwdTarget = "/filedownload";

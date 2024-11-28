@@ -210,6 +210,7 @@ public class YamlUtil
         StringWriter writer = new StringWriter();
         DumperOptions options = null;
         Representer representer = null;
+        String yamlString = null;
 
         options = new DumperOptions();
         options.setIndent(2);
@@ -227,7 +228,12 @@ public class YamlUtil
         yaml = new Yaml(representer, options);
         yaml.dump(doc, writer);
 
-        return(writer.toString());
+        yamlString = writer.toString();
+        yamlString = yamlString.replace(": ''\n", ":\n");
+        yamlString = yamlString.replace(": [\n  ]\n", ":\n");
+        yamlString = yamlString.replaceAll("\n .*- ''\n", "\n");        
+
+        return(yamlString);
       }
     
             
@@ -246,6 +252,109 @@ public class YamlUtil
           }
 
         return(value);
+      }
+
+    public static KnowledgeQnA cloneQnA(KnowledgeQnA qna)
+      {
+        KnowledgeQnA qnaClone = null;
+        Document document = null;
+        Document documentClone = null;
+        KnowledgeSeedExample example = null;
+        KnowledgeSeedExample exampleClone = null;
+        KnowledgeSeedQandA seedQna = null;
+        KnowledgeSeedQandA seedQnaClone = null;
+        List<KnowledgeSeedQandA> seedQnaList = null;
+        List<KnowledgeSeedQandA> seedQnaListClone = null;
+        List<KnowledgeSeedExample> exampleList = null;
+        List<KnowledgeSeedExample> exampleListClone = null;
+        List<String> patterns = null;
+        List<String> patternsClone = null;
+        Iterator<String> patternIt = null;
+        Iterator<KnowledgeSeedQandA> seedIt = null;
+        Iterator<KnowledgeSeedExample> it = null;
+
+        if(qna != null)
+          {
+            qnaClone = new KnowledgeQnA();
+            qnaClone.setCreated_by(qna.getCreated_by());
+            qnaClone.setDocument_outline(qna.getDocument_outline());
+            qnaClone.setDomain(qna.getDomain());
+            qnaClone.setVersion(qna.getVersion());
+            document = qna.getDocument();
+            documentClone = new Document();
+            documentClone.setRepo(document.getRepo());
+            documentClone.setCommit(document.getCommit());
+            patterns = document.getPatterns();
+            patternsClone = new ArrayList<String>();
+            patternIt = patterns.iterator();
+
+            while(patternIt.hasNext())
+              patternsClone.add(patternIt.next());
+
+            documentClone.setPatterns(patternsClone);
+            qnaClone.setDocument(documentClone);
+            exampleList = qna.getSeed_examples();
+            exampleListClone = new ArrayList<KnowledgeSeedExample>();
+            it = exampleList.iterator();
+            while(it.hasNext())
+              {
+                example = it.next();
+                exampleClone = new KnowledgeSeedExample();
+                exampleClone.setContext(example.getContext());
+                seedQnaList = example.getQuestions_and_answers();
+                seedQnaListClone = new ArrayList<KnowledgeSeedQandA>();
+                seedIt = seedQnaList.iterator();
+
+                while(seedIt.hasNext())
+                  {
+                    seedQna = seedIt.next();
+                    seedQnaClone = new KnowledgeSeedQandA();
+                    seedQnaClone.setQuestion(seedQna.getQuestion());
+                    seedQnaClone.setAnswer(seedQna.getAnswer());
+                    seedQnaListClone.add(seedQnaClone);
+                  }
+
+                exampleClone.setQuestions_and_answers(seedQnaListClone);
+                exampleListClone.add(exampleClone);
+                qnaClone.setSeed_examples(exampleListClone);
+              }
+          }
+
+        return(qnaClone);
+      }
+
+    public static SkillQnA cloneQnA(SkillQnA qna)
+      {
+        SkillQnA qnaClone = null;
+        SkillSeedExample example = null;
+        SkillSeedExample exampleClone = null;
+        List<SkillSeedExample> exampleList = null;
+        List<SkillSeedExample> exampleListClone = null;
+        Iterator<SkillSeedExample> it = null;
+
+        if(qna != null)
+          {
+            qnaClone = new SkillQnA();
+            exampleListClone = new ArrayList<SkillSeedExample>();
+            exampleList = qna.getSeed_examples();
+            it = exampleList.iterator();
+            while(it.hasNext())
+              {
+                exampleClone = new SkillSeedExample();
+                example = it.next();
+                exampleClone.setContext(example.getContext());
+                exampleClone.setQuestion(example.getQuestion());
+                exampleClone.setAnswer(example.getAnswer());
+                exampleListClone.add(exampleClone);
+              }
+
+            qnaClone.setSeed_examples(exampleListClone);
+            qnaClone.setCreated_by(qna.getCreated_by());
+            qnaClone.setTask_description(qna.getTask_description());
+            qnaClone.setVersion(qna.getVersion());
+          }
+
+        return(qnaClone);
       }
 
     public static void pruneEmptyQnA(KnowledgeQnA qna)
@@ -371,4 +480,45 @@ public class YamlUtil
               
           }
       }
+    
+    public static String pruneEmptyContext(String yamlString)
+      {
+        String token = "    context: ''";
+        int startIndex, endIndex;
+
+        while((startIndex = yamlString.indexOf(token)) != -1)
+          {
+            endIndex = yamlString.indexOf("\n", startIndex);
+            if(endIndex == -1)
+              yamlString = yamlString.substring(startIndex);
+            else
+              yamlString = yamlString.substring(0, startIndex) + yamlString.substring( endIndex + 1);
+          }
+
+        return(yamlString);
+      }
+
+        
+    static public String encodeYamlAsHTML(String yaml)
+      {
+        String[] lines = null;
+        String line = null;
+        int index;
+
+        lines = yaml.split("\n", 0);
+        yaml = "";
+
+        for(int i=0; i<lines.length; i++)
+          {
+            line = lines[i];
+            index = line.indexOf(line.trim());
+            for(int j=0; j<index; j++)
+              line = "&nbsp;" + line.trim();
+            //line = line.replaceAll("\\s+", "&nbsp;");
+            yaml += line + "<br />\n";
+          }
+
+        return(yaml);
+      }
+
   }
