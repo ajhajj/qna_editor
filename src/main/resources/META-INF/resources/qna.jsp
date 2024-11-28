@@ -88,9 +88,10 @@
             <br /><br />
             <h2>Metadata:</h2>
             <div align="right" vertical-align="top" style="margin: auto; padding: 2%; border-radius: 10px;">
-              <input type="submit" name="save" value="Save" style="background-image: url(images/save.png);" class="my-submit-icon"> | 
-              <input type="submit" name="export" value="Export" style="background-image: url(images/download.png);" class="my-submit-icon"> | 
-              <input type="submit" name="preview" value="YAML Preview" style="background-image: url(images/preview.png);" class="my-submit-icon">
+              <input type="button" name="home" value="Home" title="Home" style="background-image: url(images/home.png);" class="my-submit-icon" onclick="location.href='/';"> | 
+              <input type="submit" name="save" value="Save" title="Save" style="background-image: url(images/save.png);" class="my-submit-icon"> | 
+              <input type="submit" name="export" value="Export" title="Export YAML" style="background-image: url(images/download.png);" class="my-submit-icon"> | 
+              <input type="submit" name="preview" value="YAML Preview" title="Preview YAML" style="background-image: url(images/preview.png);" class="my-submit-icon">
             </div>
             <div style="border: 2px solid darkgray; margin: auto; padding: 2%; border-radius: 10px;">
               <div class="four"> 
@@ -125,9 +126,10 @@
             <br /><br />
             <h2>Seed Examples:</h2>
             <div align="right" vertical-align="top" style="margin: auto; padding: 2%; border-radius: 10px;">
-              <input type="submit" name="save" value="Save" style="background-image: url(images/save.png);" class="my-submit-icon"> | 
-              <input type="submit" name="export" value="Export" style="background-image: url(images/download.png);" class="my-submit-icon"> | 
-              <input type="submit" name="preview" value="YAML Preview" style="background-image: url(images/preview.png);" class="my-submit-icon">
+              <input type="button" name="home" value="Home" title="Home" style="background-image: url(images/home.png);" class="my-submit-icon" onclick="location.href='/';"> | 
+              <input type="submit" name="save" value="Save" title="Save" style="background-image: url(images/save.png);" class="my-submit-icon"> | 
+              <input type="submit" name="export" value="Export" title="Export YAML" style="background-image: url(images/download.png);" class="my-submit-icon"> | 
+              <input type="submit" name="preview" value="YAML Preview" title="Preview YAML" style="background-image: url(images/preview.png);" class="my-submit-icon">
             </div>
             <% 
               int exampleCount = 0;

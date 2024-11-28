@@ -124,9 +124,10 @@ public class qna_skill_jsp extends HttpServlet //initial
             out.print("            <br /><br />\n");
             out.print("            <h1>Skill Q&A</h1>\n");
             out.print("            <div align=\"right\" vertical-align=\"top\" style=\"margin: auto; padding: 2%; border-radius: 10px;\">\n");
-            out.print("              <input type=\"submit\" name=\"save\" value=\"Save\" style=\"background-image: url(images/save.png);\" class=\"my-submit-icon\"> | \n");
-            out.print("              <input type=\"submit\" name=\"export\" value=\"Export\" style=\"background-image: url(images/download.png);\" class=\"my-submit-icon\"> | \n");
-            out.print("              <input type=\"submit\" name=\"preview\" value=\"YAML Preview\" style=\"background-image: url(images/preview.png);\" class=\"my-submit-icon\">\n");
+            out.print("              <input type=\"button\" name=\"home\" value=\"Home\" title=\"Home\" style=\"background-image: url(images/home.png);\" class=\"my-submit-icon\" onclick=\"location.href='/';\"> | \n");
+            out.print("              <input type=\"submit\" name=\"save\" value=\"Save\" title=\"Save\" style=\"background-image: url(images/save.png);\" class=\"my-submit-icon\"> | \n");
+            out.print("              <input type=\"submit\" name=\"export\" value=\"Export\" title=\"Export YAML\" style=\"background-image: url(images/download.png);\" class=\"my-submit-icon\"> | \n");
+            out.print("              <input type=\"submit\" name=\"preview\" value=\"YAML Preview\" title=\"Preview YAML\" style=\"background-image: url(images/preview.png);\" class=\"my-submit-icon\">\n");
             out.print("            </div>\n");
             out.print("            <h2>Metadata:</h2><br />\n");
             out.print("            <div style=\"border: 2px solid darkgray;; margin: auto; padding: 2%; border-radius: 10px;\"> <!-- start div \"border\" -->\n");
