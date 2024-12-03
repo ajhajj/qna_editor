@@ -60,6 +60,7 @@ public class NewFileServlet extends GenericServlet
             qnaKDoc = YamlUtil.createEmptyKQnA();
             qnaKDoc.setVersion(version);
             session.setAttribute("qnaDoc", qnaKDoc);
+            session.setAttribute("qnaSDoc", null);
             target = _TARGET_KQNA;
           }
         else
@@ -67,6 +68,7 @@ public class NewFileServlet extends GenericServlet
             qnaSDoc = YamlUtil.createEmptySQnA(); 
             qnaSDoc.setVersion(version);
             session.setAttribute("qnaSDoc", qnaSDoc);
+            session.setAttribute("qnaDoc", null);
             target = _TARGET_SQNA;
           }
 

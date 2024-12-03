@@ -106,6 +106,7 @@ public class FileUploadServlet extends GenericServlet
                     qnaDoc = YamlUtil.parseKnowledgeYamlFromString(file);
                     YamlUtil.padQnA(qnaDoc);
                     session.setAttribute("qnaDoc", qnaDoc);
+                    session.setAttribute("qnaSDoc", null);
                     target = _TARGET_KQNA;
                   }
                 catch(YAMLException ex)
@@ -122,6 +123,7 @@ public class FileUploadServlet extends GenericServlet
                     qnaSDoc = YamlUtil.parseSkillYamlFromString(file);
                     YamlUtil.padQnA(qnaSDoc);
                     session.setAttribute("qnaSDoc", qnaSDoc);
+                    session.setAttribute("qnaDoc", null);
                     target = _TARGET_SQNA;
                   }
                 catch(YAMLException ex)
