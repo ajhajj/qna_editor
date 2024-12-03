@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%@page import="com.redhat.rad.yaml.model.SkillQnA,
-                  com.redhat.rad.yaml.model.SkillSeedExample,
+  <%@page import="com.redhat.rag.yaml.model.SkillQnA,
+                  com.redhat.rag.yaml.model.SkillSeedExample,
                   java.util.List,
                   java.util.Iterator" session="true"%>
   <%

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%@page import="com.redhat.rad.yaml.model.KnowledgeQnA,
-                  com.redhat.rad.yaml.model.KnowledgeSeedExample,
-                  com.redhat.rad.yaml.model.KnowledgeSeedQandA,
+  <%@page import="com.redhat.rag.yaml.model.KnowledgeQnA,
+                  com.redhat.rag.yaml.model.KnowledgeSeedExample,
+                  com.redhat.rag.yaml.model.KnowledgeSeedQandA,
                   java.util.List,
                   java.util.Iterator" session="true"%>
   <%
