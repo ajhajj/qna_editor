@@ -1,9 +1,11 @@
 package com.redhat.servlets.jsp;
 
-import com.redhat.rad.yaml.model.KnowledgeQnA;
-import com.redhat.rad.yaml.model.KnowledgeSeedExample;
-import com.redhat.rad.yaml.model.KnowledgeSeedQandA;
 import java.util.List;
+
+import com.redhat.rag.yaml.model.KnowledgeQnA;
+import com.redhat.rag.yaml.model.KnowledgeSeedExample;
+import com.redhat.rag.yaml.model.KnowledgeSeedQandA;
+
 import java.util.Iterator;
 import java.io.IOException;
 import java.io.PrintWriter;

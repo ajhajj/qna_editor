@@ -1,4 +1,4 @@
-package com.redhat.rad.yaml;
+package com.redhat.rag.yaml;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,12 +18,12 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
-import com.redhat.rad.yaml.model.Document;
-import com.redhat.rad.yaml.model.KnowledgeQnA;
-import com.redhat.rad.yaml.model.KnowledgeSeedExample;
-import com.redhat.rad.yaml.model.KnowledgeSeedQandA;
-import com.redhat.rad.yaml.model.SkillQnA;
-import com.redhat.rad.yaml.model.SkillSeedExample;
+import com.redhat.rag.yaml.model.Document;
+import com.redhat.rag.yaml.model.KnowledgeQnA;
+import com.redhat.rag.yaml.model.KnowledgeSeedExample;
+import com.redhat.rag.yaml.model.KnowledgeSeedQandA;
+import com.redhat.rag.yaml.model.SkillQnA;
+import com.redhat.rag.yaml.model.SkillSeedExample;
 
 public class YamlUtil 
   {

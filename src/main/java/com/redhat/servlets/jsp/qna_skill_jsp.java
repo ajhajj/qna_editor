@@ -1,8 +1,10 @@
 package com.redhat.servlets.jsp;
 
-import com.redhat.rad.yaml.model.SkillQnA;
-import com.redhat.rad.yaml.model.SkillSeedExample;
 import java.util.List;
+
+import com.redhat.rag.yaml.model.SkillQnA;
+import com.redhat.rag.yaml.model.SkillSeedExample;
+
 import java.util.Iterator;
 import java.io.IOException;
 import java.io.PrintWriter;

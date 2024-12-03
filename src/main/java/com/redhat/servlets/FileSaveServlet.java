@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.redhat.rad.yaml.YamlUtil;
-import com.redhat.rad.yaml.model.Document;
-import com.redhat.rad.yaml.model.KnowledgeQnA;
-import com.redhat.rad.yaml.model.KnowledgeSeedExample;
-import com.redhat.rad.yaml.model.KnowledgeSeedQandA;
-import com.redhat.rad.yaml.model.SkillQnA;
-import com.redhat.rad.yaml.model.SkillSeedExample;
+import com.redhat.rag.yaml.YamlUtil;
+import com.redhat.rag.yaml.model.Document;
+import com.redhat.rag.yaml.model.KnowledgeQnA;
+import com.redhat.rag.yaml.model.KnowledgeSeedExample;
+import com.redhat.rag.yaml.model.KnowledgeSeedQandA;
+import com.redhat.rag.yaml.model.SkillQnA;
+import com.redhat.rag.yaml.model.SkillSeedExample;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

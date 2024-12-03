@@ -1,4 +1,4 @@
-package com.redhat.rad.yaml.model;
+package com.redhat.rag.yaml.model;
 
 import java.util.List;
 

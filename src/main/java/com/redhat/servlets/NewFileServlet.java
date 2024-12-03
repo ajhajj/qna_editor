@@ -2,9 +2,9 @@ package com.redhat.servlets;
 
 import java.io.IOException;
 
-import com.redhat.rad.yaml.YamlUtil;
-import com.redhat.rad.yaml.model.KnowledgeQnA;
-import com.redhat.rad.yaml.model.SkillQnA;
+import com.redhat.rag.yaml.YamlUtil;
+import com.redhat.rag.yaml.model.KnowledgeQnA;
+import com.redhat.rag.yaml.model.SkillQnA;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
