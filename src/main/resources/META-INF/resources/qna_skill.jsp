@@ -44,7 +44,7 @@
               <a onclick="document.getElementById('yaml').style.display = 'none'; document.getElementById('metadata').style.display = 'block'; document.getElementById('seed_examples').style.display = 'none';" class="x">❌</a>
             </div>
             <br /><br />
-            <h1>Knowledge Q&A</h1>
+            <h1>Skill Q&A</h1>
             <br /><br />
             <h2>YAML Preview:</h2><br />
             <div style="border: 2px solid darkgray; margin: auto; padding: 2%; border-radius: 10px; background-color: rgb(200, 197, 197);">
