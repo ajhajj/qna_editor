@@ -16,6 +16,7 @@ $ podman run -i --rm -p 8080:8080 quay.io/ajhajj/qna-editer
 
 Open it up in a web browser and get to work!
 
+More detailed instructions on how to work this into a workflow using the Red Hat Demo System follow.
 
 ## Name
 Choose a self-explaining name for your project.
@@ -23,14 +24,65 @@ Choose a self-explaining name for your project.
 ## Description
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Deploying on RHEL AI
+Here are instructions on integrating the QNA editor into your RHEL AI workflow.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+First, order the "RHEL AI (GA) VM" item from demo.redhat.com. After it provisions, you'll see log in information in the "Details" tab. SSH into your VM and set up InstructLab. When logging into the host with SSH, set up port forwarding for port 8080 so that you can access the interface for QNA Editor like this:
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```
+ssh -L8080:127.0.0.1:8080 instruct@bastion.rk5z4.sandbox1032.opentlc.com
+```
+
+```
+$ ilab config init
+```
+
+You should see the following output and a confirmation prompt:
+
+```
+Welcome to InstructLab CLI. This guide will help you to setup your environment.
+Please provide the following values to initiate the environment [press Enter for defaults]:
+Cloning https://github.com/instructlab/taxonomy.git...
+Generating `/var/home/instruct/.config/instructlab/config.yaml`...
+Detecting Hardware...
+We chose Nvidia 1x L4 as your designated training profile. This is for systems with 24 GB of vRAM.
+This profile is the best approximation for your system based off of the amount of vRAM. We modified it to match the number of GPUs you have.
+Is this profile correct? [Y/n]: Y
+Initialization completed successfully, you're ready to start using `ilab`. Enjoy!
+```
+
+Next, log into the Red Hat image registry:
+
+```
+$ podman login registry.redhat.io
+```
+
+Download the necessary models:
+
+```
+$ ilab model download --repository docker://registry.redhat.io/rhelai1/granite-7b-starter --release latest
+$ ilab model download --repository docker://registry.redhat.io/rhelai1/mixtral-8x7b-instruct-v0-1 --release latest
+$ ilab model download --repository docker://registry.redhat.io/rhelai1/prometheus-8x7b-v2-0 --release latest
+
+```
+
+Pull the QNA Editor image from Quay.io:
+
+```
+podman pull quay.io/ajhajj/qna-editor
+```
+
+Get the image hash from the podman listing and run the container, forwarding port 8080.
+
+```
+$ podman images
+REPOSITORY                 TAG         IMAGE ID      CREATED     SIZE
+quay.io/ajhajj/qna-editor  latest      91ab06de857d  2 days ago  439 MB
+$ podman run -i --rm -p 8080:8080 91ab06de857d
+```
+
+You should now be able to access the QNA editor by pointing your web browser to http://localhost:8080/.
+
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
