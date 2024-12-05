@@ -163,7 +163,7 @@ Let's ask a few questions about the band and see how it does.
 Three out of four isn't bad, but that last one is a complete fabrication. Dinosaur Jr. covered "Just Like Heaven" by The Cure on their 1989 record "Bug" and "Born to be Bad" is not an XTC song. We've got some training to do!
 
 ### Creating the QNA file for our knowledge
-To create our QNA file, open up the QNA editor in a Web Browser. If you forwarded port 8080 on your local computer using SSH, you'll access the editor at http://127.0.0.1
+To create our QNA file, open up the QNA editor in a Web Browser. If you forwarded port 8080 on your local computer using SSH, you'll access the editor at http://127.0.0.1:8080/
 
 When you first access the editor, you'll be given the option to either upload an existing QNA file or create a new one. We'll be creating a new one for this example.
 
@@ -174,11 +174,17 @@ The editor supports creating both knowledge and skill QNA documents, but we'll b
 The next page is the Metadata Editor. Fill out the form with the following information.
 
 **Domain** pop_culture
+
 **Created by** You!
+
 **Outline** Dinosaur Jr. is a legendary indie rock band.
+
 **Git URL** https://github.com/msolberg/Dinosaur_Jr_knowledge.git
+
 **Commit ref:** 91540a8
+
 **Patterns:** Dinosaur_Jr.md
+
 
 ![nmetadata](img/metadata.png)
 
@@ -191,9 +197,11 @@ Then enter some questions and answers which reference that section of the text.
 
 ![qna](img/qna.png)
 
-Continue copying sections of the article into the "Context" boxes and adding questions and answers about those sections to the question and answer boxes. When you're done, click the download button at the top of the page to download your QNA file.
+Continue copying sections of the article into the "Context" boxes and adding questions and answers about those sections to the question and answer boxes. 
 
 ![download](img/download.png)
+
+When you're done, click the download button at the top of the page to download your QNA file.
 
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
