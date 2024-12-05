@@ -19,10 +19,10 @@ Open it up in a web browser and get to work!
 More detailed instructions on how to work this into a workflow using the Red Hat Demo System follow.
 
 ## Name
-Choose a self-explaining name for your project.
+QNA Editor
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+The QNA Editor is a graphical user interface for writing questions and answers for use in customizing LLMs with InstructLab. It is written in Quarkus as a standalone web application and can be easily deployed as a container.
 
 ## Deploying on RHEL AI
 Here are instructions on integrating the QNA editor into your RHEL AI workflow.
@@ -33,6 +33,7 @@ First, order the "RHEL AI (GA) VM" item from demo.redhat.com. After it provision
 ssh -L8080:127.0.0.1:8080 instruct@bastion.rk5z4.sandbox1032.opentlc.com
 ```
 
+### Initialize InstructLab
 ```
 $ ilab config init
 ```
@@ -51,6 +52,11 @@ Is this profile correct? [Y/n]: Y
 Initialization completed successfully, you're ready to start using `ilab`. Enjoy!
 ```
 
+More information on initializing InstructLab is available here:
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_ai/1.1/html/building_your_rhel_ai_environment/initializing_instructlab
+
+### Download Models
 Next, log into the Red Hat image registry:
 
 ```
@@ -66,13 +72,17 @@ $ ilab model download --repository docker://registry.redhat.io/rhelai1/prometheu
 
 ```
 
+More information on downloading models for InstructLab is available here:
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_ai/1.1/html/building_your_rhel_ai_environment/downloading_ad_models
+
+### Launch the QNA Editor
 Pull the QNA Editor image from Quay.io:
 
 ```
 podman pull quay.io/ajhajj/qna-editor
 ```
 
-Get the image hash from the podman listing and run the container, forwarding port 8080.
+Get the image ID from the podman listing and run the container, forwarding port 8080.
 
 ```
 $ podman images
@@ -80,12 +90,12 @@ REPOSITORY                 TAG         IMAGE ID      CREATED     SIZE
 quay.io/ajhajj/qna-editor  latest      91ab06de857d  2 days ago  439 MB
 $ podman run -i --rm -p 8080:8080 91ab06de857d
 ```
+In the above example, the image ID is "91ab06de857d".
 
 You should now be able to access the QNA editor by pointing your web browser to http://localhost:8080/.
 
-
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Once you've installed the required models and started the QNA Editor, you can begin customizing your LLM.
 
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
