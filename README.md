@@ -197,30 +197,53 @@ Then enter some questions and answers which reference that section of the text.
 
 ![qna](img/qna.png)
 
-Continue copying sections of the article into the "Context" boxes and adding questions and answers about those sections to the question and answer boxes. 
+Continue copying sections of the article into the "Context" boxes and adding questions and answers about those sections to the question and answer boxes. You must have five context sections with three questions and answers to be able to customize an LLM.
 
 ![download](img/download.png)
 
 When you're done, click the download button at the top of the page to download your QNA file.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Customizing your LLM using the QNA file.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Start by copying your downloaded QNA file up to the RHEL AI VM.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+```
+$ scp qna.yaml instruct@bastion.rk5z4.sandbox1032.opentlc.com:qna.yaml
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Make a directory within the InstructLab taxonomy and copy your qna file into it.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```
+$ mkdir -p .local/share/instructlab/taxonomy/knowledge/pop_culture/dinosaur_jr/
+$ cp qna.yaml .local/share/instructlab/taxonomy/knowledge/pop_culture/dinosaur_jr/
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Run the instructlab taxonomy checker to make sure that the syntax and set up are correct:
 
-## License
-For open source projects, say how it is licensed.
+```
+$ ilab taxonomy diff
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+You should see output similar to the following:
+
+```
+compositional_skills/grounded/linguistics/inclusion/qna.yaml
+compositional_skills/grounded/linguistics/writing/rewriting/qna.yaml
+compositional_skills/linguistics/synonyms/qna.yaml
+knowledge/science/animals/birds/black_capped_chickadee/qna.yaml
+knowledge/pop_culture/dinosaur_jr/qna.yaml
+Taxonomy in /var/home/instruct/.local/share/instructlab/taxonomy is valid :)
+```
+
+Next, create some synthetic content using the mixtral model. In one SSH session to the VM, start the mixtral model:
+
+```
+$ ilab model serve --model-path ~/.cache/instructlab/models/mixtral-8x7b-instruct-v0-1
+```
+
+In the other session, run the generation command
+
+```
+$ ilab data generate
+```
+
