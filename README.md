@@ -162,6 +162,38 @@ Let's ask a few questions about the band and see how it does.
 
 Three out of four isn't bad, but that last one is a complete fabrication. Dinosaur Jr. covered "Just Like Heaven" by The Cure on their 1989 record "Bug" and "Born to be Bad" is not an XTC song. We've got some training to do!
 
+### Creating the QNA file for our knowledge
+To create our QNA file, open up the QNA editor in a Web Browser. If you forwarded port 8080 on your local computer using SSH, you'll access the editor at http://127.0.0.1
+
+When you first access the editor, you'll be given the option to either upload an existing QNA file or create a new one. We'll be creating a new one for this example.
+
+![new_document](img/new_document.png)
+
+The editor supports creating both knowledge and skill QNA documents, but we'll be working with a knowledge QNA document. Click "Create" to get started.
+
+The next page is the Metadata Editor. Fill out the form with the following information.
+
+**Domain** pop_culture
+**Created by** You!
+**Outline** Dinosaur Jr. is a legendary indie rock band.
+**Git URL** https://github.com/msolberg/Dinosaur_Jr_knowledge.git
+**Commit ref:** 91540a8
+**Patterns:** Dinosaur_Jr.md
+
+![nmetadata](img/metadata.png)
+
+This tells the model that we're going to be using the Wikipedia article that I committed to a git repository and also which commit to pull. It also identifies the file in the repository which contains the knowledge as "Dinosaur_Jr.md".
+
+Now on to the fun part. Click on "Seed Examples" at the top of the form to access the question and answer section.
+
+Copy a section from the wikipedia article [here](https://github.com/msolberg/Dinosaur_Jr_knowledge/blob/main/Dinosaur_Jr.md) into the "Context" box.
+Then enter some questions and answers which reference that section of the text.
+
+![qna](img/qna.png)
+
+Continue copying sections of the article into the "Context" boxes and adding questions and answers about those sections to the question and answer boxes. When you're done, click the download button at the top of the page to download your QNA file.
+
+![download](img/download.png)
 
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
