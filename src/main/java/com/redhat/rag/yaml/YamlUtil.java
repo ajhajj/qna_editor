@@ -51,7 +51,13 @@ public class YamlUtil
                     "          Who manufactured the DeLorean DMC-12?\n" + //
                     "        answer: |\n" + //
                     "          The DeLorean Motor Company manufactured the DeLorean DMC-12.";
-        System.out.println(getVersion(file));            
+        System.out.println(getVersion(file));
+        
+        String quoteTest = "His name is \"Amritpal\"";
+        System.out.println("Original value: " + quoteTest);
+        System.out.println("Escaped value: " + escapeQuotes(quoteTest));
+        System.out.println("Restored value: " + unescapeQuotes(quoteTest));
+
 /* 
         try 
           {
@@ -231,7 +237,7 @@ public class YamlUtil
         yamlString = writer.toString();
         yamlString = yamlString.replace(": ''\n", ":\n");
         yamlString = yamlString.replace(": [\n  ]\n", ":\n");
-        yamlString = yamlString.replaceAll("\n .*- ''\n", "\n");        
+        yamlString = yamlString.replaceAll("\n .*- ''\n", "\n");
 
         return(yamlString);
       }
@@ -519,6 +525,20 @@ public class YamlUtil
           }
 
         return(yaml);
+      }
+
+    public static String escapeQuotes(String yamlString)
+      {
+        yamlString = yamlString.replace("\"", "&quot;");
+
+        return(yamlString);
+      }
+
+    public static String unescapeQuotes(String yamlString)
+      {
+        yamlString = yamlString.replace("&quot;", "\"");
+
+        return(yamlString);
       }
 
   }

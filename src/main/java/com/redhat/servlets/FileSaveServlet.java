@@ -235,6 +235,7 @@ public class FileSaveServlet extends GenericServlet
           {
             valString = valString.trim();
             valString = valString.replaceAll("\r\n", "\n");
+            valString = YamlUtil.escapeQuotes(valString);
           }
 
         return(valString);

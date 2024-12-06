@@ -97,6 +97,7 @@ public class FileUploadServlet extends GenericServlet
             session = request.getSession();
             fileStream = filePart.getInputStream();
             file = loadFile(fileStream);
+            file = YamlUtil.escapeQuotes(file);
             version = getVersion(file);
 
             if("3".equals(version))
