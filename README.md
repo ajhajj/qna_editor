@@ -4,9 +4,6 @@
 </div>
 <br/>
 
-<b>`TODO` - COMPLETE SLIDES </b>
-<br/><b>[AI Odyssey Demo Template](https://docs.google.com/presentation/d/1LRVEuCEOWUUSdvp4G76FN_8m782QfZfIPcq92rH7Yk0/edit?usp=sharing)</b>
-
 ## Demo Deployment Instructions
 This project is a graphical QNA editor which makes editing QNA files for InstructLab easy and fun! To try it out, you can simply run the container on any machine with the following command:
 
