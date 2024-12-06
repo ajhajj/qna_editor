@@ -16,9 +16,9 @@ This project is a graphical QNA editor which makes editing QNA files for Instruc
 $ podman run -i --rm -p 8080:8080 quay.io/ajhajj/qna-editor
 ```
 
-The container is ready for requests to http://localhost:8080/.
+The container is ready to receive requests at `http://localhost:8080/`.  Now simply open it up in a web browser and get to work!
 
-Open it up in a web browser and get to work!
+
 
 More detailed instructions on how to work this into a workflow using the Red Hat Demo System follow.
 
