@@ -1,27 +1,37 @@
 # AI Odyssey 2025 demo-project
+
 <div align="center">
-<img src="./img/VirtualAIOdysseyLogo.png" width="150" height="150">
+<img src="./img/VirtualAIOdysseyLogo.png" width="300" height="300">
+<br />
+<a href="https://docs.google.com/presentation/d/1LRVEuCEOWUUSdvp4G76FN_8m782QfZfIPcq92rH7Yk0/edit?usp=sharing">AI Odyssey Demo Slides</a>
+<br />
 </div>
 <br/>
 
 ## Demo Deployment Instructions
+
 This project is a graphical QNA editor which makes editing QNA files for InstructLab easy and fun! To try it out, you can simply run the container on any machine with the following command:
 
 ```
-$ podman run -i --rm -p 8080:8080 quay.io/ajhajj/qna-editer
+$ podman run -i --rm -p 8080:8080 quay.io/ajhajj/qna-editor
 ```
+
+The container is ready for requests to http://localhost:8080/.
 
 Open it up in a web browser and get to work!
 
 More detailed instructions on how to work this into a workflow using the Red Hat Demo System follow.
 
 ## Name
+
 QNA Editor
 
 ## Description
+
 The QNA Editor is a graphical user interface for writing questions and answers for use in customizing LLMs with InstructLab. It is written in Quarkus as a standalone web application and can be easily deployed as a container.
 
 ## Deploying on RHEL AI
+
 Here are instructions on integrating the QNA editor into your RHEL AI workflow.
 
 First, order the "RHEL AI (GA) VM" item from demo.redhat.com. After it provisions, you'll see log in information in the "Details" tab. SSH into your VM and set up InstructLab. When logging into the host with SSH, set up port forwarding for port 8080 so that you can access the interface for QNA Editor like this:
@@ -31,6 +41,7 @@ ssh -L8080:127.0.0.1:8080 instruct@bastion.rk5z4.sandbox1032.opentlc.com
 ```
 
 ### Initialize InstructLab
+
 ```
 $ ilab config init
 ```
@@ -62,6 +73,7 @@ Additional information on initializing InstructLab is available here:
 https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_ai/1.1/html/building_your_rhel_ai_environment/initializing_instructlab
 
 ### Download Models
+
 Next, log into the Red Hat image registry:
 
 ```
@@ -74,13 +86,13 @@ Download the necessary models:
 $ ilab model download --repository docker://registry.redhat.io/rhelai1/granite-7b-starter --release latest
 $ ilab model download --repository docker://registry.redhat.io/rhelai1/mixtral-8x7b-instruct-v0-1 --release latest
 $ ilab model download --repository docker://registry.redhat.io/rhelai1/prometheus-8x7b-v2-0 --release latest
-
 ```
 
 More information on downloading models for InstructLab is available here:
 https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_ai/1.1/html/building_your_rhel_ai_environment/downloading_ad_models
 
 ### Launch the QNA Editor
+
 Pull the QNA Editor image from Quay.io:
 
 ```
@@ -95,16 +107,19 @@ REPOSITORY                 TAG         IMAGE ID      CREATED     SIZE
 quay.io/ajhajj/qna-editor  latest      91ab06de857d  2 days ago  439 MB
 $ podman run -i --rm -p 8080:8080 91ab06de857d
 ```
+
 In the above example, the image ID is "91ab06de857d".
 
 You should now be able to access the QNA editor by pointing your web browser to http://localhost:8080/.
 
 ## Usage
+
 Once you've installed the required models and started the QNA Editor, you can begin customizing your LLM.
 
 In this example, we'll be teaching our model all about the legendary indie rock band Dinosaur Jr. To train our model, we'll need to start with some knowledge. For this exercise, I've taken the Wikipedia article on Dinosaur Jr and placed it in a Git repository (https://github.com/msolberg/Dinosaur_Jr_knowledge).
 
 ### Establishing the Baseline
+
 For testing, we'll be asking a set of questions as a baseline to see how much knowledge the model already has about the subject.
 Start the chatbot in one SSH session with the following command.
 
@@ -160,6 +175,7 @@ Let's ask a few questions about the band and see how it does.
 Three out of four isn't bad, but that last one is a complete fabrication. Dinosaur Jr. covered "Just Like Heaven" by The Cure on their 1989 record "Bug" and "Born to be Bad" is not an XTC song. We've got some training to do!
 
 ### Creating the QNA file for our knowledge
+
 To create our QNA file, open up the QNA editor in a Web Browser. If you forwarded port 8080 on your local computer using SSH, you'll access the editor at http://127.0.0.1:8080/
 
 When you first access the editor, you'll be given the option to either upload an existing QNA file or create a new one. We'll be creating a new one for this example.
@@ -181,7 +197,6 @@ The next page is the Metadata Editor. Fill out the form with the following infor
 **Commit ref:** 91540a8
 
 **Patterns:** Dinosaur_Jr.md
-
 
 ![nmetadata](img/metadata.png)
 
@@ -243,4 +258,3 @@ In the other session, run the generation command
 ```
 $ ilab data generate
 ```
-
